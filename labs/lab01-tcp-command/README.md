@@ -1,64 +1,4 @@
 # Lab 1 - TCP Command Server
-
-In this lab, you will extend a simple TCP echo server into a small command-based TCP server.
-
-The lecture example showed a basic client/server program where the client sends text and the server echoes the same text back. This lab builds on that idea by adding a simple command protocol.
-
-## Learning Goals
-
-By the end of this lab, you should be able to:
-
-* Explain the difference between a TCP client and a TCP server.
-* Run a TCP server and connect to it with a client.
-* Send and receive text over a socket.
-* Implement simple command parsing.
-* Use automated tests to check server command behavior.
-* Describe a small text-based protocol.
-
-## Starter Code Structure
-
-The starter code is located in:
-
-```
-labs/lab01-tcp-command/starter/
-```
-
-The starter project has this structure:
-
-```
-starter/
-├── package.json
-├── src/
-│   ├── client.js
-│   ├── commands.js
-│   └── server.js
-└── test/
-    └── commands.test.js
-```
-
-### File Descriptions
-
-| File                    | Purpose                                                                                     |
-| ----------------------- | ------------------------------------------------------------------------------------------- |
-| `src/server.js`         | Starts the TCP server, accepts client connections, reads client input, and sends responses. |
-| `src/client.js`         | Provides a simple command-line TCP client for testing the server manually.                  |
-| `src/commands.js`       | Contains the command-handling logic. Most of your work will be here.                        |
-| `test/commands.test.js` | Contains automated tests for the command-handling logic.                                    |
-| `package.json`          | Defines project metadata, dependencies, and npm scripts.                                    |
-
-## Required Features
-
-1. The server must accept TCP client connections on a configurable port.
-2. The client must send one command at a time.
-3. The server must support `ECHO`, `UPPER`, `LOWER`, and `QUIT`.
-4. The server must return an error for unknown commands.
-5. The server must not crash when the client sends an empty line.
-6. The README must describe the protocol.
-
-### Graduate Students
-
-7. Implement `REVERSE` or `TIME` or add a new command and document it. 
-
 ## Command Protocol
 
 The server accepts one text command per line.
@@ -75,112 +15,25 @@ Commands are case-insensitive, but the command arguments should be handled as no
 | unknown command | error message       |
 | Empty command   | No response         |
 
-## Running the Lab
-
-First, move into the starter directory:
-
-```
-cd labs/lab01-tcp-command/starter
-```
-
-Install dependencies:
-
-```
-npm install
-```
-
-Start the server:
-
-```
-npm run server
-```
-
-In a second terminal, move into the same starter directory and run the client:
-
-```
-npm run client
-```
-
-You should be able to type commands into the client and see responses from the server.
-
-Example:
-
-```
-> ECHO hello
-hello
-
-> UPPER hello
-HELLO
-
-> QUIT
-Goodbye.
-```
-
-## Configuring the Port
-
-The server should use port `3000` by default.
-
-You can run the server on a different port by setting the `PORT` environment variable:
-
-```
-PORT=4000 npm run server
-```
-
-Then run the client using the same port:
-
-```
-PORT=4000 npm run client
-```
-
-## Testing
-
-This lab includes automated tests for the command-handling logic.
-
-Run the tests from the starter directory:
-
-```
-npm test
-```
-
-The tests are focused on `src/commands.js`.
-
-That means you can work on the command behavior without needing to manually start the TCP server every time.
-
-The main function being tested is:
-
-```
-handleCommand(line)
-```
-
-The tests check that commands such as `ECHO`, `UPPER`, `LOWER`, `REVERSE`, `TIME`, and `QUIT` return the expected responses.
-
-Some tests may fail when you first receive the starter code. Your job is to update the implementation until the required tests pass.
-
-You may also run the tests in watch mode if supported by the starter project:
-
-```
-npm run test:watch
-```
-
-## Suggested Workflow
-
-1. Run the server and client before changing anything.
-2. Try the existing commands manually.
-3. Run the automated tests.
-4. Open `src/commands.js`.
-5. Implement one command at a time.
-6. Run `npm test` after each change.
-7. Once the tests pass, test manually with the client.
-8. Update this README to describe the final protocol.
-
 ## Reflection Questions
 
 Answer the following questions in your submission:
 
 1. What is the difference between the client and the server?
+
+The difference between the client and the server is that a client requests a service, while a server provides a service. The client will make a request, and it is up to the server to know how to handle the request. Another difference is that the client is the one that initiates communication between the two.
+
 2. Why does the server need to keep running after handling one request?
+
+The server needs to keep running after handling one request, as the same client, or others, may immediately make another request. In order to be able to handle these requests, the server must stay up. An alternative of restarting the server after every request would be highly inefficient.
+
 3. What happens if two clients connect at the same time?
+
+If two clients connect at the same time, they will still both be serviced by the server. Each client has its own connection to the server and thus is still able to send commands that will be handled by the server. With such a small number of clients connected at the same time, the users likely wouldn't even notice that they weren't the only ones connected to the server.
+
 4. How is this different from HTTP?
+
+This raw socket approach is different from HTTP, as HTTP provides structure to the messages. While the underlying protocol is TCP for both, HTTP provides a standard format for all messages and responses to follow. The HTTP protocol is also more complex, as it allows data to be read, created, replaced, deleted, and more. This simple protocol can only echo or simply modify the byte stream the client sends.
 
 ## Submission
 
