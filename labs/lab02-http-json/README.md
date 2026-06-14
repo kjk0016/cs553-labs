@@ -36,19 +36,15 @@ The tests should check behavior such as:
 Answer the following questions in your submission:
 
 1. What is the difference between a TCP message and an HTTP request?
-
 A tcp message runs on the transport layer, while an http request runs on the application layer. Tcp is responsible for establishing the connection between the client and the server, while http provides a standard format between the client(web) and the server. 
 
 2. What does the `Content-Type: application/json` header tell the server?
-
 This just teels the server that the body of the http request follows json formatting. This is important so that the server knows how to read the incoming request. 
 
 3. Why should a server return different HTTP status codes for different situations?
-
 Servers should return different http status codes for different situations to provide more robust feedback. If I, as a client, send something that results in an error, it is much easier to rectify that error if I know exactly what went wrong. If instead, I'm just given a general error, it'll likely take me way longer to figure out what's going wrong. This is also true for success codes. You may not only want to know that a request was successfully recieved, but also know that some other task was successful as well. 
 
 4. What happens if the client sends invalid JSON?
-
 If the client sends and invalid JSON, the server sends an error response stating that it recieved an invalid JSON.
 
 5. How is this lab different from Lab 1?
