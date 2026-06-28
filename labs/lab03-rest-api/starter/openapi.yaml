@@ -24,12 +24,130 @@ paths:
                     example: ok
 
   # TODO: Document GET /items.
-  # TODO: Document POST /items.
-  # TODO: Document GET /items/{id}.
-  # TODO: Document PUT /items/{id}.
-  # TODO: Document DELETE /items/{id}.
-  #
-  # Remember:
+  /items:
+    get:
+      summary: Return all of the items
+      responses:
+        "200":
+          description: List all of the items for the user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Item"
+    # TODO: Document POST /items.
+    post:
+      summary: Create a new item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemInput"
+            example:
+              name: keyboard
+              quantity: 4
+      responses:
+        "201":
+          description: Item created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+        "400":
+          description: Invalid item input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  
+  /items/{id}:
+    # TODO: Document GET /items/{id}.
+    get:
+      summary: Return one item by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Item ID
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Item found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+        "404":
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    # TODO: Document PUT /items/{id}.
+    put:
+      summary: Update an existing item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Item ID
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemInput"
+            example:
+              name: mouse
+              quantity: 12
+      responses:
+        "200":
+          description: Item updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+        "400":
+          description: Invalid item input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    # TODO: Document DELETE /items/{id}.
+    delete:
+      summary: Delete an existing item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Item ID
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "204":
+          description: Item deleted
+        "404":
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+   # Remember:
   # - Express routes use :id, such as /items/:id.
   # - OpenAPI paths use {id}, such as /items/{id}.
   #
@@ -38,6 +156,45 @@ paths:
 
 components:
   schemas:
-  # TODO: Define an Item schema with id, name, and quantity.
-  # TODO: Define an ItemInput schema with name and quantity.
-  # TODO: Define an ErrorResponse schema with an error message.
+    # TODO: Define an Item schema with id, name, and quantity.
+    Item:
+      type: object
+      required:
+        - id
+        - name
+        - quantity
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: keyboard
+        quantity:
+          type: number
+          minimum: 0
+          example: 10
+    # TODO: Define an ItemInput schema with name and quantity.
+    ItemInput:
+      type: object
+      required:
+        - name
+        - quantity
+      properties:
+        name:
+          type: string
+          minLength: 1
+          example: keyboard
+        quantity:
+          type: number
+          minimum: 0
+          example: 4
+    # TODO: Define an ErrorResponse schema with an error message.
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          example: Item not found
