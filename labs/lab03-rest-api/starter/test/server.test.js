@@ -60,12 +60,12 @@ describe("Lab 3 starter", () => {
 
     const response = await request(app)
       .put("/items/1")
-      .send({ name: "mechanical keyboard", quantity: 12 })
+      .send({ name: "keyboard", quantity: 12 })
       .expect(200);
 
     expect(response.body).toEqual({
       id: 1,
-      name: "mechanical keyboard",
+      name: "keyboard",
       quantity: 12
     });
   });
