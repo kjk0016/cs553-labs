@@ -137,17 +137,10 @@ The openapi.yaml file just documents the API implemented in server.js. It detail
 
 ## Graduate Extension
 
-The graduate extension was implemented by adding validation before creating or updating items.
+The graduate extension adds validation before creating or updating items.
 
 For `POST /items` and `PUT /items/:id`, the server checks the JSON request body before saving any changes. The `name` field must be a string with at least one non-whitespace character, and the `quantity` field must be a number greater than or equal to zero.
 
 If either field is missing or invalid, the server returns status code `400` with a JSON error response instead of creating or updating the item.
 
-Example invalid input response:
-
-```json
-{
-  "error": "name must be a non-empty string"
-}
-```
 Automated tests were also added for invalid input. These tests verify that invalid POST /items and PUT /items/:id requests return status code 400 and include a JSON error message.
