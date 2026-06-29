@@ -117,23 +117,23 @@ The schemas in `openapi.yaml` describe the structure of successful item response
 
 ### 1. What makes this API more REST-like than the previous HTTP/JSON lab?
 
-TODO
+This lab is more REST-like than the previous HTTP/JSON lab, as it actually handles resources. In the previous lab, we used routes to perform calculations and echo messages. In this lab, we actually deal with resources with routes to query an item, create an item, update an item, and delete an item. All of these routes are resource interactions and not miscellaneous tasks.
 
 ### 2. What is the purpose of a route parameter such as `/items/:id`?
 
-TODO
+The purpose of a route parameter such as `/items/:id`, is just to allow the server to differentiate between items. It allows the client to send specific requests for an item, and the server to handle specific requests for an item.
 
 ### 3. Why should `POST`, `PUT`, and `DELETE` use different HTTP methods?
 
-TODO
+Post, put, and delete use different HTTP methods because they each describe a different interaction. POST to create a new item, PUT to update an item, and DELETE to remove an item. This clean separation makes the api easier to understand as the method describes the exact action being performed on a resource.
 
 ### 4. What is the difference between a `400` error and a `404` error?
 
-TODO
+A 400 error means a bad request was sent, and the server cannot understand it. This differs from a 404 error, in which the server understands the request but cannot find the specified resource. 
 
 ### 5. How does the OpenAPI file relate to your Express server code?
 
-TODO
+The openapi.yaml file just documents the API implemented in server.js. It details all of the routes, and methods used, with descriptions and expected responses. The express server code is the actuall implementation of the openapi specification.
 
 ## Graduate Extension
 
