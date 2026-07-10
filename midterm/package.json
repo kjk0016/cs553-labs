@@ -1,0 +1,12 @@
+{
+  "name": "midterm",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "server": "node src/server.js",
+    "client": "node client.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
