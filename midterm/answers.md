@@ -19,6 +19,7 @@ Explain what it means for an API to be stateless. Give one advantage and one dis
 A stateless API is an api in which each request contains everything the server needs to understand and process the request. In addition to that, the server does not remember any prior requests. An advantage for this design, is that it is easier to scale horizontally. Since the server does not store any client specific session information, any server can handle any request. A disadvantage to this approach, is an increased message size, as each request has to contain everything needed. 
 
 4. HTTP status Codes
+
 | Example                                         | code|
 |----|----|
 |A new resource was successfully created          | 201 |
