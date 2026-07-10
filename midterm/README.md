@@ -1,5 +1,9 @@
 # Kevin King CS-553 Midterm
 
+## Midterm answers
+
+For answers to the midterm questions check out `answers.md`.
+
 ## Running the Express Server
 
 Move into the midterm directory:
