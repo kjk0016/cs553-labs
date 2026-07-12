@@ -371,7 +371,7 @@ export async function initializeDatabase() {
 
   await pool.query(`
     INSERT INTO categories (name)
-    VALUES ('Accessories'), ('Displays'), ('Processors'), ('Memory')
+    VALUES ('I/O'), ('Displays'), ('Processors'), ('Memory')
     ON CONFLICT (name) DO NOTHING
   `);
 
@@ -382,12 +382,12 @@ export async function initializeDatabase() {
       `
         INSERT INTO items (name, quantity, category_id)
         VALUES
-          ($1, $2, (SELECT id FROM categories WHERE name = 'Accessories')),
-          ($3, $4, (SELECT id FROM categories WHERE name = 'Accessories')),
+          ($1, $2, (SELECT id FROM categories WHERE name = 'I/O')),
+          ($3, $4, (SELECT id FROM categories WHERE name = 'I/O')),
           ($5, $6, (SELECT id FROM categories WHERE name = 'Displays')),
           ($7, $8, (SELECT id FROM categories WHERE name = 'Processors'))
       `,
-      ["Keyboard", 10, "Mouse", 5, "Monitor", 3, "RTX 5090", 1]
+      ["Keyboard", 12, "Mouse", 6, "Monitor", 3, "RTX 5090", 1]
     );
   }
 }
