@@ -30,7 +30,21 @@
             <input id="item-quantity" name="quantity" type="number" min="0" required>
           </label>
 
+          <label>
+            Category
+            <select id="item-category" name="category" required></select>
+          </label>
+
           <button type="submit">Add Item</button>
+        </form>
+
+        <form id="add-category-form">
+          <label>
+            New category
+            <input id="category-name" name="category-name" type="text" required>
+          </label>
+
+          <button type="submit">Add Category</button>
         </form>
 
         <p id="status" class="status">Ready.</p>
