@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Course Task Tracker API
+  title: CS553 course task tracker
   version: 1.0.0
-  description: API for managing course tasks stored in memory.
+  description: API for managing course tasks for cs553.
 
 servers:
   - url: http://localhost:3000
