@@ -25,17 +25,30 @@ function renderItems(items) {
     const category = item.category_name ?? "Uncategorized";
     description.textContent = `${item.id}: ${item.name} (${item.quantity}) — ${category}`;
 
+    const buttonGroup = document.createElement("div");
+    buttonGroup.className = "item-buttons";
+
+    // button for editting items
+    const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.className = "edit-button";
+    editButton.textContent = "Edit";
+    editButton.addEventListener("click", () => editItem(item));
+
+    // button for deleting items
     const deleteButton = document.createElement("button");
     deleteButton.type = "button";
     deleteButton.className = "delete-button";
     deleteButton.textContent = "Delete";
     deleteButton.addEventListener("click", () => deleteItem(item.id));
 
-    li.append(description, deleteButton);
+    buttonGroup.append(editButton, deleteButton);
+    li.append(description, buttonGroup);
     itemList.appendChild(li);
   }
 }
 
+// loading the available categories
 async function loadCategories() {
   try {
     const response = await fetch(`${API_BASE_URL}/api/categories`);
@@ -57,6 +70,7 @@ async function loadCategories() {
   }
 }
 
+// loading the available items
 async function loadItems() {
   setStatus("Loading items...");
 
@@ -75,6 +89,7 @@ async function loadItems() {
   }
 }
 
+// adding items to the db
 async function addItem(name, quantity, categoryId) {
   setStatus("Adding item...");
 
@@ -100,6 +115,7 @@ async function addItem(name, quantity, categoryId) {
   }
 }
 
+// deleting items from the db
 async function deleteItem(id) {
   setStatus("Deleting item...");
 
@@ -120,6 +136,60 @@ async function deleteItem(id) {
   }
 }
 
+// editing existing items
+async function editItem(item) {
+  const nameInput = window.prompt("Enter the item name:", item.name);
+  if (nameInput === null) {
+    return;
+  }
+
+  const quantityInput = window.prompt("Enter the item quantity:", String(item.quantity));
+  if (quantityInput === null) {
+    return;
+  }
+
+  const name = nameInput.trim();
+  const quantity = Number(quantityInput);
+
+  if (!name || !Number.isInteger(quantity) || quantity < 0) {
+    setStatus("Enter a name and a non-negative integer quantity.");
+    return;
+  }
+
+  const updates = {};
+  if (name !== item.name) {
+    updates.name = name;
+  }
+  if (quantity !== item.quantity) {
+    updates.quantity = quantity;
+  }
+
+  if (Object.keys(updates).length === 0) {
+    setStatus("No changes were made.");
+    return;
+  }
+
+  setStatus("Editing item...");
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/items/${item.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updates)
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message ?? `PATCH /api/items/${item.id} failed with status ${response.status}`);
+    }
+
+    await loadItems();
+  } catch (error) {
+    setStatus(error.message);
+  }
+}
+
+// adding new categories
 async function addCategory(name) {
   setStatus("Adding category...");
 

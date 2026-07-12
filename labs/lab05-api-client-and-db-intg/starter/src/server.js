@@ -62,7 +62,7 @@ export function createApp() {
     }
   });
 
-  // Starter route: return every item from the database.
+  // Starter route: return every item from the database
   app.get("/api/items", async (req, res) => {
     try {
       const result = await pool.query(`
@@ -83,7 +83,7 @@ export function createApp() {
     }
   });
 
-  // Starter route: create one item so the client can demonstrate a write.
+  // Starter route: create one item so the client can demonstrate a write
   app.post("/api/items", async (req, res) => {
     const name = req.body?.name?.trim();
     const quantity = Number(req.body?.quantity);
@@ -122,7 +122,7 @@ export function createApp() {
     }
   });
 
-  // Return one item by ID.
+  // Return one item by ID
   app.get("/api/items/:id", async (req, res) => {
     const id = parseItemId(req.params.id);
 
@@ -154,7 +154,7 @@ export function createApp() {
     }
   });
 
-  // Replace one item by ID. PUT requires a complete item representation.
+  // Replace one item by ID
   app.put("/api/items/:id", async (req, res) => {
     const id = parseItemId(req.params.id);
 
@@ -197,7 +197,7 @@ export function createApp() {
     }
   });
 
-  // Partially update one item by ID.
+  // Partially update one item by ID
   app.patch("/api/items/:id", async (req, res) => {
     const id = parseItemId(req.params.id);
 
@@ -283,7 +283,7 @@ export function createApp() {
     }
   });
 
-  // Graduate extension: list all categories.
+  // extension list all categories
   app.get("/api/categories", async (req, res) => {
     try {
       const result = await pool.query(`
@@ -302,7 +302,7 @@ export function createApp() {
     }
   });
 
-  // Graduate extension: create a category.
+  // extension create a category
   app.post("/api/categories", async (req, res) => {
     const name = typeof req.body?.name === "string" ? req.body.name.trim() : "";
 
@@ -363,7 +363,7 @@ export async function initializeDatabase() {
     )
   `);
 
-  // Add the relationship when upgrading an existing starter database.
+  // Add the relationship when upgrading an existing starter database
   await pool.query(`
     ALTER TABLE items
     ADD COLUMN IF NOT EXISTS category_id INTEGER REFERENCES categories(id)
@@ -377,6 +377,7 @@ export async function initializeDatabase() {
 
   const { rows } = await pool.query("SELECT COUNT(*)::int AS count FROM items");
 
+  // populating the initial db
   if (rows[0].count === 0) {
     await pool.query(
       `

@@ -80,6 +80,15 @@ button {
   margin-bottom: 10px;
 }
 
+.item-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.edit-button {
+  background: #039e03;
+}
+
 .delete-button {
   padding: 10px 14px;
   background: #910d04;
