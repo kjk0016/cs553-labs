@@ -40,7 +40,7 @@ postgres://postgres:postgres@localhost:5433/lab05
 
 ## Graduate Extension
 
-See `README.md` under `lab05-api-client-and-db-intg` for excerpt on the graduate extension.
+See response to question 5.
 
 ## Reflection Answers
 
