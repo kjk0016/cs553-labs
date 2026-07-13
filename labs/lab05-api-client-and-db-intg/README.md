@@ -1,37 +1,5 @@
 # Lab 5 - API Client and Database Integration
 
-## Overview
-
-In this lab, you will start with a small full-stack application:
-
-- a browser client served on one port
-- an Express API served on another port
-- a Postgres database running in Docker
-
-The starter already demonstrates the basic integration path. The browser can
-load items from the API and create a new item. The API connects to Postgres,
-creates a table if needed, and stores data in the database instead of in memory.
-
-Your job is to extend this starting point into a more complete REST-style API.
-You should add additional routes, update the client to use some of them, and
-practice thinking about resource design, validation, and status codes.
-
-This should stay small. The goal is not to build a semester project here. The
-goal is to get comfortable with the client/server/database boundary in a
-manageable codebase.
-
-## Learning Goals
-
-By the end of this lab, you should be able to:
-
-- Run a Postgres database with Docker Compose.
-- Connect an Express server to Postgres using `pg`.
-- Read and write rows with SQL from route handlers.
-- Keep a browser client and API on separate origins and handle CORS correctly.
-- Extend an API beyond simple `GET` and `POST` routes.
-- Use `PUT`, `PATCH`, and `DELETE` with appropriate status codes.
-- Design at least one small resource well enough to support full CRUD behavior.
-
 ## Starter Structure
 
 The starter directory includes:
@@ -79,40 +47,25 @@ Your implementation should:
 - distinguish between invalid input and missing resources
 - continue using Postgres as the source of truth
 
-## Suggested Scope
+## UI Implementation
 
-Keep the data model simple. For example, an item can have:
+The browser client includes buttons and forms that demonstrate the following
+API routes:
 
-```json
-{
-  "id": 1,
-  "name": "Keyboard",
-  "quantity": 10
-}
-```
+| UI control | Method and route | Behavior |
+|---|---|---|
+| Load Items | `GET /api/items` | Retrieves the current items from Postgres and displays them. |
+| Add Item | `POST /api/items` | Creates an item using the entered name, quantity, and category. |
+| Edit | `PATCH /api/items/:id` | Partially updates an existing item's name, quantity, or both. |
+| Delete | `DELETE /api/items/:id` | Deletes the selected item and refreshes the displayed list. |
+| Add Category | `POST /api/categories` | Creates a category and adds it to the category selection list. |
 
-You may add fields if they are useful, but do not let the lab grow too large.
+The `GET /api/items/:id` and `PUT /api/items/:id` routes are implemented, they just don't have corresponding buttons.
 
-For the browser client, you do not need a polished UI. A small functional page
-is enough. Extend it just enough to demonstrate some of the routes you add.
+## Graduate Extension
 
-Examples:
+For the extension, categories that describe the items were added. For example, a keyboard and mouse falls under the I/O category, while a monitor falls under the display category. The API provides `GET /api/categories` for listing categories and `POST /api/categories` for creating them. The UI allows users to select a category when creating a new item. It also allows them to create a new category.
 
-- add a delete button next to each item
-- add a simple edit form
-- add a detail view for one item
-
-## Optional Extensions
-
-If you finish early, choose one small extension:
-
-- add a second resource such as categories, tags, or projects
-- relate two resources with a foreign key
-- add filtering or search to one route
-- add a second client-side interaction beyond load/create
-
-Graduate students should complete at least one extension and document it in
-their starter README.
 
 ## Running the Starter
 
@@ -160,17 +113,6 @@ http://localhost:3000
 
 The starter Postgres container is exposed on host port `5433`, so it is less
 likely to conflict with another local Postgres instance already using `5432`.
-
-## What to Notice in the Starter
-
-As you read the starter, pay attention to:
-
-- how the database connection is configured
-- where the table creation and seed logic happens
-- how the API reads JSON request bodies
-- how SQL results are turned into JSON responses
-- how the browser client handles success and error states
-- how CORS allows the browser app to call the API across ports
 
 ## Deliverables
 
